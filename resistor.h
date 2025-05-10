@@ -9,6 +9,9 @@
 #include<initializer_list>
 
 class Resistor : public Component {
+protected:
+  double Resistance;
+
 public:
     Resistor(std::string name, double value) : name(name), value(value) {}
     ~Resistor() override = default;
@@ -18,7 +21,7 @@ public:
     }
 
     double getValue() const override {
-        return value;
+        return value;[]
     }
 
     void setValue(double newValue) override {
