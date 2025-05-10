@@ -13,23 +13,15 @@ protected:
   double Resistance;
 
 public:
-    Resistor(std::string name, double value) : name(name), value(value) {}
-    ~Resistor() override = default;
+    Resistor(double resistanceIn = 0.0);
+    ~Resistor() override;
 
-    std::string getName() const override {
-        return name;
-    }
 
-    double getValue() const override {
-        return value;[]
-    }
+    double getResistance() const;
+    void setResistance(double resistanceIn);
 
-    void setValue(double newValue) override {
-        value = newValue;
-    }
-
-    void print() const override {
-        std::cout << "Resistor: " << name << ", Value: " << value << " Ohm" << std::endl;
-    }}
-
+    // void print() const override {
+    //     std::cout << "Resistor: " << name << ", Value: " << value << " Ohm" << std::endl;
+    // }}
+};
 #endif
