@@ -8,7 +8,7 @@
 #include<cmath>
 #include<initializer_list>
 
-class Component {
+class Components {
 protected:
   std::string componentType;
   std::complex<double> Impedance;
@@ -18,8 +18,8 @@ protected:
   
 
 public:
-  Component(const std::string &compType = "none", std::complex<double> impIn = 0.0, double magnIn = 0.0, double freqIn=0.0, double phsDiffIn = 0.0);
-  virtual ~Component() = default;
+  Components(const std::string &compType = "none", std::complex<double> impIn = 0.0, double magnIn = 0.0, double freqIn=0.0, double phsDiffIn = 0.0);
+  virtual ~Components() = default;
 
   // Getters
   std::string getType() const {return componentType;}
