@@ -18,7 +18,7 @@ protected:
   
 
 public:
-  Component(const std::string &compType = "none", std::complex<double> impIn = 0.0, double magnIn = 0.0, double freqIn=0.0, double phsDiffInn = 0.0);
+  Component(const std::string &compType = "none", std::complex<double> impIn = 0.0, double magnIn = 0.0, double freqIn=0.0, double phsDiffIn = 0.0);
   virtual ~Component() = default;
 
   // Getters
@@ -27,6 +27,13 @@ public:
   double getMagn() const {return magnitudeOfImpedance;}
   double getFreq() const {return Frequency;}
   double getPhsDiff() const {return phaseDifference;}
+
+  // Setters
+  void setType(std::string &compType) {componentType = compType;}
+  void setImp(std::complex<double> impIn) {Impedance = impIn;}
+  void setMagn(double magnIn) {magnitudeOfImpedance = magnIn;}
+  void setFreq(double freqIn) {Frequency = freqIn;}
+  void setPhsDiff(double phsDiffIn) {phaseDifference = phsDiffIn;}
 
 
 
