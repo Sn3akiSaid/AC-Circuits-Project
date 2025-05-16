@@ -33,11 +33,11 @@ public:
 
 	// Copy Operations
 	Components(const Components& other) = default; 									// Non virtual copy constructor
-	virtual Components& operator=(const Components& other) = 0; 		// Virtual copy assignment
+	virtual Components& operator=(const Components& other);     		// Virtual copy assignment
 
 	// Move Operations
 	Components(Components&& other) noexcept;												// Non virtual move constructor
-	virtual Components& operator=(Components&& other) noexcept = 0; // Virtual move assignment
+	virtual Components& operator=(Components&& other) noexcept; // Virtual move assignment
 
 	// Virtual clone method implementing "Virtual Constructor idiom"
 	virtual std::unique_ptr<Components> clone() const = 0;
