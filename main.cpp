@@ -9,7 +9,7 @@ int main(){
 
   myCircuit.addComponent(std::make_unique<Resistor>(100.0));
 
-  myCircuit.Display();
+  myCircuit.circuitVisualiser();
 
   return 0;
 }
