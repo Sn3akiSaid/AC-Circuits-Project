@@ -52,7 +52,7 @@ public:
 	virtual double getPhsDiff() const = 0;
 
 	// Setters
-	virtual void setType(std::string &compType) = 0;
+	virtual void setType(const std::string &compType) = 0;
 	virtual void setImp(std::complex<double> impIn) = 0;
 	virtual void setMagn(double magnIn) = 0;
 	virtual void setFreq(double freqIn) = 0;

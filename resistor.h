@@ -50,7 +50,7 @@ public:
 	virtual double getPhsDiff() const override;
 
 	// Setters
-	virtual void setType(std::string &compType) override;
+	virtual void setType(const std::string &compType) override;
 	virtual void setImp(std::complex<double> impIn) override;
 	virtual void setMagn(double magnIn) override;
 	virtual void setFreq(double freqIn) override;

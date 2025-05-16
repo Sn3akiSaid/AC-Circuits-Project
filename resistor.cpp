@@ -20,7 +20,7 @@ Resistor::Resistor(double resIn,
     {
       throw std::invalid_argument("Resistance cannot be negative.");
     }
-    updateImpedance();
+    updateImpedance(); // Use helper method
   }
 
 // Using Rule of Five //
@@ -74,10 +74,78 @@ Resistor::Resistor(double resIn,
   // Setter
   void Resistor::setResistance(double resIn)
   { // Validation for resistance
-    if (resIn)
+    if (resIn < 0.0)
     {
       throw std::invalid_argument("Resistance not allowed to be negative.");
     }
     Resistance = resIn;
+    updateImpedance(); // Use helper method
+  }
+
+  // Implementation of the helper method to update the impedance
+  void Resistor::updateImpedance()
+  { // In a resistor: Resistance = Re[Impedance] = |Impedance| ; no phase shift
+    Impedance = std::complex<double>(Resistance, 0.0);
+    magnitudeOfImpedance = Resistance;
+    phaseDifference = 0.0;
+  }
+
+// Implementation of the Components methods
+
+  // The Getters
+  std::string Resistor::getType() const
+  {return componentType;} // Returns "Resistor" from parameterized constructor
+
+  std::complex<double> Resistor::getImp() const
+  {return Impedance;}
+
+  double Resistor::getMagn() const
+  {return magnitudeOfImpedance;}
+
+  double Resistor::getFreq() const
+  {return Frequency;}
+  
+  // The Setters
+  void Resistor::setType(const std::string &compType)
+  {componentType = compType;}
+
+  void Resistor::setImp(std::complex<double> impIn)
+  { // Here will now use R=Re[I] and phasedifference=Arg[I]
+    Impedance = impIn;
+    Resistance = impIn.real();
+    magnitudeOfImpedance = std::abs(impIn);
+    phaseDifference = std::arg(impIn);
+  }
+
+  void Resistor::setMagn(double magnIn)
+  { // Check if magnitude is negative, mustn't be 
+    if (magnIn < 0.0)
+    {
+      throw std::invalid_argument("Impedance magnitude cannot be negative. ");
+    }
+    magnitudeOfImpedance = magnIn;
+    // Magnitude changes update resistance
+    Resistance = magnIn;
+    Impedance = std::complex<double>(Resistance, 0.0);
+    phaseDifference = 0.0;
+  }
+  
+  void Resistor::setFreq(double freqIn)
+  { // Check for negative frequency
+    if (freqIn < 0.0)
+    {
+      throw std::invalid_argument("Frequency cannot be negative. ");
+    }
+    Frequency = freqIn;
+    // In ideal resistors frequency doesn't change the impedances, but maintain helper method for concsistency
     updateImpedance();
+  }
+
+  void Resistor::setPhsDiff(double phsDiffIn)
+  { // Ideal resistor have 0 phase so check if phase is non-0
+    if (phsDiffIn != 0.0)
+    {
+      std::cerr << "Warning: Ideal resistor should not have a phase difference." << std::endl;
+    }
+    phaseDifference = phsDiffIn;
   }
