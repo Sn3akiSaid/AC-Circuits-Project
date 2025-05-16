@@ -9,6 +9,7 @@
 #include<initializer_list>
 
 class Components {
+//  Protected data members
 protected:
 	std::string componentType;
 	std::complex<double> Impedance;
@@ -16,7 +17,7 @@ protected:
 	double Frequency;
 	double phaseDifference;
 	
-
+// Public containing objects to be accessed by users
 public:
 	// Constructor declaration
 	Components(const std::string &compType = "none",
@@ -31,10 +32,15 @@ public:
 	virtual ~Components() = default;
 
 	// Copy Operations
-	Components(const Components& other) = default; 							// Non virtual copy constructor
-	virtual Components& operator=(const Components& other) = 0; // Virtual copy assignment
+	Components(const Components& other) = default; 									// Non virtual copy constructor
+	virtual Components& operator=(const Components& other) = 0; 		// Virtual copy assignment
 
-	// Move operations
+	// Move Operations
+	Components(Components&& other) noexcept;												// Non virtual move constructor
+	virtual Components& operator=(Components&& other) noexcept = 0; // Virtual move assignment
+
+	// Virtual clone method implementing "Virtual Constructor idiom"
+	virtual std::unique_ptr<Components> clone() const = 0;
 
 	// Getters
 	virtual std::string getType() const = 0;
@@ -49,8 +55,6 @@ public:
 	virtual void setMagn(double magnIn) = 0;
 	virtual void setFreq(double freqIn) = 0;
 	virtual void setPhsDiff(double phsDiffIn) = 0;
-
-
 
 };
 
