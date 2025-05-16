@@ -63,7 +63,7 @@
 	{ // Checking for self assignments
 		if (this != &other)
 		{
-			componentType = std::move(other.componentType);
+			componentType = std::move(other.componentType); // Again use move only for string
 			Impedance = other.Impedance;
 			magnitudeOfImpedance = other.magnitudeOfImpedance;
 			Frequency = other.Frequency;

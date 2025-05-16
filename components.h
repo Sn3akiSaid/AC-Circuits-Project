@@ -37,11 +37,13 @@ public:
 
 	// Move Operations
 	Components(Components&& other) noexcept;												// Non virtual move constructor
-	virtual Components& operator=(Components&& other) noexcept; // Virtual move assignment
+	virtual Components& operator=(Components&& other) noexcept; 		// Virtual move assignment
 
 	// Virtual clone method implementing "Virtual Constructor idiom"
 	virtual std::unique_ptr<Components> clone() const = 0;
 
+	// Create purely virtual getters and setters
+	
 	// Getters
 	virtual std::string getType() const = 0;
 	virtual std::complex<double> getImp() const = 0;
