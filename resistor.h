@@ -1,3 +1,6 @@
+// Derived class from base abstract class Components
+// Fully virtual
+
 #ifndef RESISTOR_H
 #define RESISTOR_H
 #include"components.h"
@@ -13,7 +16,7 @@ protected:
 public:
 
 	// Constructor with resistance and frequency parameters
-	Resistor(double resistanceIn = 0.0, double freqIn = 0.0);
+	Resistor(double resIn = 0.0, double freqIn = 0.0);
 
 
 	// Using Rule of Five
@@ -35,7 +38,7 @@ public:
 
 	// The Resistor specific virtual getters and setters
 	virtual double getResistance() const;
-	virtual void setResistance(double resistanceIn);
+	virtual void setResistance(double resIn);
 
 	// Override ALL of the Components virtual methods
 
@@ -52,6 +55,9 @@ public:
 	virtual void setMagn(double magnIn) override;
 	virtual void setFreq(double freqIn) override;
 	virtual void setPhsDiff(double phsDiffIn) override;
+
+	// Helper methods
+	virtual void updateImpedance();
 
 		// void print() const override {
 		//     std::cout << "Resistor: " << name << ", Value: " << value << " Ohm" << std::endl;
