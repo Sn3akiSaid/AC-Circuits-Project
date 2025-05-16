@@ -14,12 +14,31 @@
 
   std::complex<double> Circuit::getImp() const
   {
-    std::complex<double> totalZ(0.0, 0.0);
+    if (elements.empty())
+    { // Check if there are components present
+      return std::complex<double>(0.0,0.0);
+    }
+    std::complex<double> totalImp(0.0, 0.0);
+
+    if (connectionType == ConnectionType::Series)
+    {
+      for (const auto& component : elements)
+      {
+        totalImp += component->getImp();
+      }
+    }
+    else
+    { // Else calculate total for parallel configuration
+      // 1/Z_t = 1/Z_1 + 1/Z_2 + ... 1/Z_n
+      // Y=1/Z - This is called the Admittance
+      std::complex<double> totalAdm(0.0, 0.0);
+    }
+
     for (const auto& comp : elements)
     {
-      totalZ += comp->getImp();
+      totalImp += comp->getImp();
     }
-    return totalZ;
+    return totalImp;
   }
 
   void Circuit::circuitVisualiser() const
