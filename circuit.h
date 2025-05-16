@@ -10,6 +10,13 @@
 class Circuit{
 private:
   std::vector<std::unique_ptr<Components>> elements;
+
+public:
+  void addComponent(std::unique_ptr<Components> component);
+  std::complex<double> getImpedance() const;
+  void Display() const;
+
+
 };
 
 #endif

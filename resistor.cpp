@@ -105,6 +105,8 @@ Resistor::Resistor(double resIn,
   double Resistor::getFreq() const
   {return Frequency;}
   
+  double Resistor::getPhsDiff() const
+  {return phaseDifference;}
   // The Setters
   void Resistor::setType(const std::string &compType)
   {componentType = compType;}
