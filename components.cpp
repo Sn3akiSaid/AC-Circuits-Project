@@ -3,16 +3,20 @@
 #include<utility>
 #include<stdexcept>
 
-  Components::Components(const std::string &compType = "none", 
-                         std::complex<double> impIn = 0.0,
-                         double magnIn = 0.0,
-                         double freqIn=0.0,
-                         double phsDiffIn = 0.0) :
+  // Constructor implementation
+  Components::Components(const std::string &compType, 
+                         std::complex<double> impIn,
+                         double magnIn,
+                         double freqIn,
+                         double phsDiffIn) :
                          componentType{compType},
                          Impedance{impIn},
                          magnitudeOfImpedance{magnIn},
                          Frequency{freqIn},
-                         phaseDifference{phsDiffIn}{}
+                         phaseDifference{phsDiffIn}
+                         {
+                          // Checks to be added here
+                         }
 
   Components::~Components(){}
 
