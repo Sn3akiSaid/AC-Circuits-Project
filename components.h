@@ -32,7 +32,7 @@ public:
 	virtual ~Components() = default;
 
 	// Copy Operations
-	Components(const Components& other) = default; 									// Non virtual copy constructor
+	Components(const Components& other); 														// Non virtual copy constructor
 	virtual Components& operator=(const Components& other);     		// Virtual copy assignment
 
 	// Move Operations
