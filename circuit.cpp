@@ -64,7 +64,14 @@
 //--- CIRCUIT VISUALISER ---//
   void Circuit::circuitVisualiser() const
   {
-    std::cout << "Circuit with " << components.size() << " components:\n";
+    std::cout << "\n=====" << circuitName << " (" << (connectionType == ConnectionType::Series ? "Series" : "Parallel") 
+              << ") =====\n";
+
+    if (components.empty())
+    {
+      std::cout << "This circuit is empty.\n";
+      return;
+    }
     for (const auto& comp : components)
     {
       std::cout << "- " << comp->getType() << ":"
