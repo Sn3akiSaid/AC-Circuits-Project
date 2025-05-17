@@ -35,8 +35,11 @@ public:
   // Setters
   void setFreq(double freq);
   
-  // Basic Visualisation 
+  // Visualisation
   void circuitVisualiser() const;
+  void detailedCircuitVisualiser() const;
+  void numberedCircuitVisualiser() const;
+  void nodesInCircuitVisualiser() const;
 
 // Accessor methods //
   ConnectionType getConnType() const {return connectionType;} // Connection type
