@@ -63,12 +63,12 @@
 
 //--- CIRCUIT VISUALISER ---//
   void Circuit::circuitVisualiser() const
-  {
+  { // Output the type of circuit
     std::cout << "\n=====" << circuitName << " (" << (connectionType == ConnectionType::Series ? "Series" : "Parallel") 
               << ") =====\n";
 
     if (components.empty())
-    {
+    { // Empty circuit checks
       std::cout << "This circuit is empty.\n";
       return;
     }
@@ -76,7 +76,7 @@
 
 
     if (connectionType == ConnectionType::Series)
-    {
+    { // Visualisation for SERIES Circuit
       std::cout << "---";
       for (const auto& comp : components)
       {
@@ -86,7 +86,7 @@
       std::cout << "\n";
     } 
     else
-    {
+    { // Visualisation for PARALLEL Circuit
       std::cout << " ";
       for (size_t i = 0; i < components.size(); i++)
       {
@@ -101,3 +101,29 @@
               << " Ω ∠ " << (std::arg(impedance) * 180.0 / M_PI) << "°\n";
   }
   
+//--- Circuit with detailed components ---//
+  void Circuit::detailedCircuitVisualiser() const
+  {
+    std::cout << "\n===== " << circuitName << " ("
+              << (connectionType == ConnectionType::Series ? "Series" : "Parallel")
+              << ")=====\n\n";
+
+    if (components.empty())
+    { // Check for empty circuit
+      std::cout << "This circuit is empty.\n";
+      return;
+    }
+
+    // Display the basic circuit schematic
+    circuitVisualiser();
+
+    // Now add detailed component info
+    std::cout << "\nComponent Details:\n";
+    std::cout << std::string(50, '-') << "\n"; // Add 50 dashed lines
+    std::cout << std::left << std::setw(5) << "No." // Use left positioning
+              << std::setw(12) << "Type"
+              << std::setw(15) << "Z (Ω)"
+              << std::setw(15) << "|Z| (Ω)"
+              << "Δφ (°)\n";
+    std::cout << std::string(50, '-') << "\n";
+  }
