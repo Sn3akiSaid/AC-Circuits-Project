@@ -12,7 +12,7 @@ enum class ConnectionType {Series, Parallel};
 
 class Circuit{
 private:
-  std::vector<std::unique_ptr<Components>> elements;   // Storage for components
+  std::vector<std::unique_ptr<Components>> components;   // Storage for components
   ConnectionType connectionType;
   std::string circuitName;  
 
@@ -41,7 +41,7 @@ public:
 // Accessor methods //
   ConnectionType getConnType() const {return connectionType;} // Connection type
   std::string getName() const {return circuitName;}            // Name of circuti
-  size_t getCompCount() const {return elements.size();} // Return # of components in circuit
+  size_t getCompCount() const {return components.size();} // Return # of components in circuit
 
 };
 
