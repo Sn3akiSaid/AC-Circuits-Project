@@ -16,7 +16,7 @@ int main(){
     Circuit parallelCircuit("Parallel", ConnectionType::Parallel);
     parallelCircuit.addComponent(std::make_unique<Resistor>(100, 1000));
     
-    parallelCircuit.addComponent(std::make_unique<Resistor>(130, 1000));
+    // parallelCircuit.addComponent(std::make_unique<Resistor>(130, 1000));
     
     parallelCircuit.addComponent(std::make_unique<Resistor>(150, 1000));
 

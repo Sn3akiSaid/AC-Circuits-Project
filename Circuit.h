@@ -10,7 +10,7 @@
 // Class defining connection types between components in the circuit
 enum class ConnectionType {Series, Parallel};
 
-class Circuit{
+class Circuit : public Components{
 private:
   std::vector<std::unique_ptr<Components>> components;   // Storage for components
   ConnectionType connectionType;
@@ -27,7 +27,7 @@ public:
 
 // Calculations for Impedance //
 
-  // Methods 
+  // Getters 
   std::complex<double> getImp() const; // Returns complex impedance of circuit
   double getMagn() const;              // Resulting impedance magnitude
   double getPhsDiff() const;           // Phase shift of impedance
@@ -35,7 +35,7 @@ public:
   // Setters
   void setFreq(double freq);
   
-  // Visualisation
+  // Visualisation Methods
   void circuitVisualiser() const;
   void detailedCircuitVisualiser() const;
   void numberedCircuitVisualiser() const;
