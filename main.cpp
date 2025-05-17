@@ -3,7 +3,7 @@
 #include<iostream>
 #include<memory>
 
-int Main(){
+int main(){
   try
   {
     Circuit seriesCircuit;
