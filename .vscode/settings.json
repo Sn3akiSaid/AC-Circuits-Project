@@ -46,6 +46,8 @@
     "iosfwd": "cpp",
     "limits": "cpp",
     "numbers": "cpp",
-    "cinttypes": "cpp"
+    "cinttypes": "cpp",
+    "ctime": "cpp",
+    "iomanip": "cpp"
   }
 }

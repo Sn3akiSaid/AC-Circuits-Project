@@ -85,8 +85,19 @@
       }
       std::cout << "\n";
     } 
-    else{}
-    std::complex<double> Z = getImp();
-    std::cout << "Total impedance: " << std::abs(Z) << " Ω\n";
+    else
+    {
+      std::cout << " ";
+      for (size_t i = 0; i < components.size(); i++)
+      {
+        std::cout <<  "┌──[" << components[i]->getType() << ":" 
+                  << components[i]->getMagn() << "Ω]──┐";
+        if (i < components.size() - 1) std::cout << "\n ";
+      }
+      std::cout << "\n";
+    }
+    std::complex<double> impedance = getImp();
+    std::cout << "\nTotal impedance: " << std::abs(impedance) << " Ω\n"
+              << " Ω ∠ " << (std::arg(impedance) * 180.0 / M_PI) << "°\n";
   }
   
