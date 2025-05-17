@@ -10,8 +10,9 @@ int main(){
 
     seriesCircuit.addComponent(std::make_unique<Resistor>(100.0, 10));
     seriesCircuit.addComponent(std::make_unique<Resistor>(150.0, 10));
-    seriesCircuit.circuitVisualiser();
-
+    // seriesCircuit.circuitVisualiser();
+    seriesCircuit.detailedCircuitVisualiser();
+    seriesCircuit.numberedCircuitVisualiser();
     Circuit parallelCircuit("Parallel", ConnectionType::Parallel);
     parallelCircuit.addComponent(std::make_unique<Resistor>(100, 1000));
     
@@ -19,7 +20,9 @@ int main(){
     
     parallelCircuit.addComponent(std::make_unique<Resistor>(150, 1000));
 
-    parallelCircuit.circuitVisualiser();
+    // parallelCircuit.circuitVisualiser();
+    parallelCircuit.detailedCircuitVisualiser();
+
     return 0;
   }
   catch (const std::exception& e)
