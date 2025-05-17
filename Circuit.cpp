@@ -159,6 +159,69 @@
   std::unique_ptr<Circuit> Circuit::createParallelCircuit()
   {return std::make_unique<Circuit>("Parallel Nested Circuit", ConnectionType::Parallel);}
 
+  void Circuit::displayComponentsDetailed(const std::vector<std::unique_ptr<Components>>& comps, 
+                                       int depth, int& index) const
+  {
+    std::string indent(depth * 2, ' ');
+    
+    for (const auto& comp : comps)
+    { // Check if component is a nested circuit
+      if (auto nestedCircuit = dynamic_cast<const Circuit*>(comp.get()))
+      { // Display nested circuit header
+        if (nestedCircuit->getCompCount() == 1)
+        {
+          displayComponentsDetailed(nestedCircuit->components, depth, index);
+        }
+        else
+        {
+        std::complex<double> imp = nestedCircuit->getImp();
+        std::ostringstream impStream;
+        impStream << std::fixed << std::setprecision(2) 
+                  << imp.real() << " + j" << imp.imag();
+                     
+        std::string label = (nestedCircuit->getConnType() == ConnectionType::Series)
+                          ? "Series Group" : "Parallel Group";
+        label += " (" + std::to_string(nestedCircuit->getCompCount()) + " items)";
+        std::cout << std::left
+                  << std::setw(5) << (++index)
+                  << std::setw(35) << (indent + label)
+                  << std::setw(20) << impStream.str()
+                  << std::setw(15) << nestedCircuit->getMagn()
+                  << std::fixed << std::setprecision(1)
+                  << (nestedCircuit->getPhsDiff() * 180.0 / pi) << "\n";
+        // Recursively show its contents, with increased depth
+        displayComponentsDetailed(nestedCircuit->components, depth + 1, index);
+        }
+                      
+        // Recursively display nestedCircuit components with increased indentation
+            displayComponentsDetailed(nestedCircuit->components, depth + 1, index);
+      }
+      else
+      { // Display regular component
+        std::complex<double> imp = comp->getImp();
+        std::ostringstream impStream;
+        impStream << std::fixed << std::setprecision(2) 
+                  << imp.real() << " + j" << imp.imag();
+                     
+        std::cout << std::left
+                  << std::setw(5) << (++index)
+                  << std::setw(25) << (indent + comp->getType())
+                  << std::setw(20) << impStream.str()
+                  << std::setw(15) << comp->getMagn()
+                  << std::fixed << std::setprecision(1)
+                  << (comp->getPhsDiff() * 180.0 / pi) << "\n";
+        }
+    }
+}
+
+// Public wrapper that initializes the index variable
+  void Circuit::displayComponentsDetailed(const std::vector<std::unique_ptr<Components>>& comps,
+                                          int depth) const
+  {
+    int startIndex = 0;
+    displayComponentsDetailed(comps, depth, startIndex);
+  }
+
 //--- CIRCUIT VISUALISER ---//
   // void Circuit::circuitVisualiser() const
   // { // Output the type of circuit
@@ -198,13 +261,56 @@
   //   std::cout << "\nTotal impedance: " << std::abs(impedance) << " Ω\n"
   //             << " Ω ∠ " << (std::arg(impedance) * 180.0 / pi) << "°\n";
   // }
-  
+  void Circuit::displaySchematic(int depth) const
+  {
+    std::string indent(depth * 2, ' ');
+
+    std::string groupType = (connectionType == ConnectionType::Series) ? "Series" : "Parallel";
+    
+    // If this is the top-level call, add a legend
+    if (depth == 0)
+    {
+      std::cout << indent << "[" 
+                << groupType << "Circuit, " 
+                << components.size() << " items]\n"; 
+    }
+    else
+    {
+      std::cout << indent << "[" 
+                << groupType << "Group, " 
+                << components.size() << " items]\n";
+    }
+    for (const auto& comp : components)
+    {
+      if (auto subcircuit = dynamic_cast<const Circuit*>(comp.get()))
+      {
+        if (subcircuit->getCompCount() == 1)
+        {subcircuit->displaySchematic(depth + 1);}
+        else
+        {subcircuit->displaySchematic(depth + 1);}
+      }
+      else
+      {
+        std::cout << indent << "  - " << comp->getType()
+                  << "(|Z| = " << comp->getMagn() << " Ohms)" << "\n"; 
+      }
+    }
+    if (depth == 0)
+    {
+      std::cout << "\nLegend:\n";
+      std::cout << "  R = Resistor\n";
+      std::cout << "  L = Inductor\n";
+      std::cout << "  C = Capacitor\n";
+      std::cout << "  [Series/Parallel Group] = Group of components\n\n";
+    }
+  }
 //--- Circuit with detailed components ---//
   void Circuit::detailedCircuitVisualiser() const
   {
     std::cout << "\n===== " 
               << (connectionType == ConnectionType::Series ? "Series" : "Parallel")
-              << " Circuit =====\n\n";
+              << " Circuit (" << getCompCount() << " items)" 
+              << "=====\n\n";
 
     if (components.empty())
     { // Check for empty circuit
@@ -213,14 +319,15 @@
     }
 
     // Display the basic circuit schematic
-    // circuitVisualiser();
+    std::cout << "Circuit Schematic:\n";
+    displaySchematic();
 
     // Now add detailed component info
     std::cout << "\nComponent Details:\n";
-    std::cout << std::string(70, '-') << "\n"; // Add 50 dashed lines
+    std::cout << std::string(90, '-') << "\n"; // Add 50 dashed lines
     std::cout << std::left
               << std::setw(5) << "#" // Use left positioning
-              << std::setw(15) << "Type"
+              << std::setw(35) << "Type"
               << std::setw(20) << "Z (Ω)"
               << std::setw(15) << "|Z| (Ω)"
               << "Δφ (°)\n";
@@ -231,25 +338,26 @@
               // << std::setw(15) << "Z (Ohms)"
               // << std::setw(15) << "|Z| (Ohms)"
               // << "Phase Difference (deg)\n";
-    std::cout << std::string(70, '-') << "\n";
+    std::cout << std::string(90, '-') << "\n";
 
-    for (size_t i = 0; i <components.size(); i++)
-    {
-      std::complex<double> imp = components[i]->getImp();
-      std::ostringstream impStream;
-      impStream << std::fixed << std::setprecision(2) 
-                << imp.real() << " + j" << imp.imag();
+    displayComponentsDetailed(components, 0);
+    // for (size_t i = 0; i <components.size(); i++)
+    // {
+    //   std::complex<double> imp = components[i]->getImp();
+    //   std::ostringstream impStream;
+    //   impStream << std::fixed << std::setprecision(2) 
+    //             << imp.real() << " + j" << imp.imag();
 
-      std::cout << std::left
-                << std::setw(5) << (i+1)
-                << std::setw(15) << components[i]->getType()
-                << std::setw(20) << impStream.str()
-                << std::setw(15) << components[i]->getMagn()
-                << std::fixed << std::setprecision(1)
-                << (components[i]->getPhsDiff() * 180.0 / pi) << "\n";
-    }
+    //   std::cout << std::left
+    //             << std::setw(5) << (i+1)
+    //             << std::setw(15) << components[i]->getType()
+    //             << std::setw(20) << impStream.str()
+    //             << std::setw(15) << components[i]->getMagn()
+    //             << std::fixed << std::setprecision(1)
+    //             << (components[i]->getPhsDiff() * 180.0 / pi) << "\n";
+    // }
 
-    std::cout << std::string(70, '-') << "\n";
+    std::cout << std::string(90, '-') << "\n";
     std::complex<double> totalImp = getImp();
     std::ostringstream totalImpStream;
     totalImpStream << std::fixed << std::setprecision(2) 
@@ -257,17 +365,17 @@
 
     std::cout << std::left
               << std::setw(5) << "Total "
-              << std::setw(15) << "Circuit"
+              << std::setw(35) << "Circuit"
               << std::setw(20) << totalImpStream.str()
               << std::setw(15) << getMagn()
               << std::fixed << std::setprecision(1)
               << (getPhsDiff() * 180.0 / pi) << "\n";
-    std::cout << std::string(70, '-') << "\n\n";
+    std::cout << std::string(90, '-') << "\n\n";
   }
 
 
-  // numbered circuit
-  void Circuit::numberedCircuitVisualiser() const
+  // ASCII circuit
+  void Circuit::asciiSchematicVisualiser() const
   {
     std::cout << "\n===== " << circuitName << " ("
               << (connectionType == ConnectionType::Series ? "Series" : "Parallel")
@@ -281,76 +389,32 @@
 
     if (connectionType == ConnectionType::Series)
     { // Add nodes in a sequence for series
-      std::cout << "[0]";
+      std::cout << "---";
       for (size_t i = 0; i <components.size(); i++)
       {
-        std::cout << "---[" << components[i]->getType() << ":"
-                  << components[i]->getMagn() << " Ohm]---["
-                  << (i+1) << "]";
+        std::cout << "[" << components[i]->getType() << ":"
+                  << components[i]->getMagn() << " Ohm]---";
       }
       std::cout << "\n\n";
-
-      // Information table for the nodes in the circuit
-      std::cout << "Node Information:\n";
-      std::cout << std::string(30, '-') << "\n";
-      std::cout << "Node | Connected Components\n";
-      std::cout << std::string(30, '-') << "\n";
-
-  //---- Connections ----//
-      // Connect first node to first component
-      std::cout << "0  | " << components[0]->getType() << "\n";
-
-      // Middle nodes connect to one on each side
-      for (size_t i = 1; i < components.size(); i++)
-      {
-        std::cout << " " << i << "  | " << components[i-1]->getType()
-                  << ", " << components[i]->getType() << "\n";
-      }
-
-      // Connect final node to last component
-      std::cout << " " << components.size() 
-                << "  | " << components[components.size()-1]->getType() << "\n";
-      std::cout << std::string(30, '-') << "\n";
     }
 
     else
     { // Add nodes in PARALLEL 
-      std::cout << "[0]";
-      for (size_t i = 0; i < components.size(); i++)
+      size_t maxLen = 0;
+      std::vector<std::string> branches;
+      for (const auto& comp : components)
       {
-        if (i == 0) std::cout << "---";
-                    std::cout << "\n  ";
-                    std::cout << "+---[" << components[i]->getType() << ":"
-                                         << components[i]->getMagn() << " Ohm]---+";
-        if (i == components.size() - 1) std::cout << "\n  ---";
+        std::ostringstream oss;
+        oss << "|---[" << comp->getType() << ":" << comp->getMagn() << " Ohm]---|";
+        std::string s = oss.str();
+        if (s.size() > maxLen) maxLen = s.size();
+        branches.push_back(s);
       }
-      std::cout << "[1]\n\n";
-
-      // Node information for the parallel connections
-      std::cout << "Node information:\n";
-      std::cout << std::string(40, '-') << "\n";
-      std::cout << "Node | Connected Components\n";
-      std::cout << std::string(40, '-') << "\n";
-
-      // Components of Node #0
-      std::cout << "0  | ";
-      for (size_t i = 0; i < components.size(); i++)
+      // Each branch
+      for (const auto& branch : branches)
       {
-        std::cout << components[i]->getType();
-        if (i < components.size() - 1) std::cout << ", ";
+        std::cout << branch << "\n";
+        std::cout << "|" << std::string(maxLen-2, ' ') << "|\n";
       }
-      std::cout << "\n";
-
-      // Components of Node #1
-      std::cout << "1  | ";
-      for (size_t i=0; i < components.size(); i++)
-      {
-        std::cout << components[i]->getType();
-        if (i < components.size() -1 ) std::cout << ", ";
-      }
-      std::cout << "\n";
-
-      // 
     }
-
   }

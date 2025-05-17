@@ -15,6 +15,10 @@ private:
   std::vector<std::unique_ptr<Components>> components;   // Storage for components
   ConnectionType connectionType;
   std::string circuitName;
+  // Helper method for recursive display of nested circuits
+  void displayComponentsDetailed(const std::vector<std::unique_ptr<Components>>& comps,
+                                 int depth, int& index) const;
+  void displaySchematic(int depth = 0) const;
 public:
 
   // Constructor
@@ -48,13 +52,16 @@ public:
   void addParallelComponent(std::unique_ptr<Components> component);
   std::unique_ptr<Circuit> createSeriesCircuit();
   std::unique_ptr<Circuit> createParallelCircuit();
+  // Overloaded wrapper initialising index for nesting
+  void displayComponentsDetailed(const std::vector<std::unique_ptr<Components>>& comps,
+                                int depth = 0) const;
 
   // Visualisation Methods
-  void circuitVisualiser() const;
+  // void circuitVisualiser() const;
   void detailedCircuitVisualiser() const;
   void numberedCircuitVisualiser() const;
-  void nodesInCircuitVisualiser() const;
-
+// New schematic method using basic ASCII art
+  void asciiSchematicVisualiser() const;
 // Accessor methods //
   ConnectionType getConnType() const {return connectionType;} // Connection type
   std::string getName() const {return circuitName;}           // Explicit circuit name getter
