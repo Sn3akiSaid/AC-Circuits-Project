@@ -127,6 +127,13 @@
               << std::setw(15) << "Z (Ω)"
               << std::setw(15) << "|Z| (Ω)"
               << "Δφ (°)\n";
+
+              // Non - ASCII for compatibility
+
+              // << std::setw(12) << "Type"
+              // << std::setw(15) << "Z (Ohms)"
+              // << std::setw(15) << "|Z| (Ohms)"
+              // << "Phase Difference (deg)\n";
     std::cout << std::string(50, '-') << "\n";
 
     for (size_t i = 0; i <components.size(); i++)
@@ -198,5 +205,24 @@
       std::cout << " " << components.size() 
                 << "  | " << components[components.size()-1]->getType() << "\n";
       std::cout << std::string(30, '-') << "\n";
+    }
+    else
+    { // Add nodes in parallel 
+      std::cout << "[0]";
+      for (size_t i = 0; i < components.size(); i++)
+      {
+        if (i == 0) std::cout << "---";
+                    std::cout << "\n  ";
+                    std::cout << "+---[" << components[i]->getType() << ":"
+                                         << components[i]->getMagn() << " Ohm]---+";
+        if (i == components.size() - 1) std::cout << "\n  ---";
+      }
+      std::cout << "[1]\n\n";
+
+      // Node information for the parallel connections
+      std::cout << "Node information:\n";
+      std::cout << std::string(40, '-') << "\n";
+      std::cout << "Node | Connected Components\n";
+      std::cout << std::string(40, '-') << "\n";
     }
   }

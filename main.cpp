@@ -20,8 +20,9 @@ int main(){
     
     parallelCircuit.addComponent(std::make_unique<Resistor>(150, 1000));
 
-    // parallelCircuit.circuitVisualiser();
+    parallelCircuit.circuitVisualiser();
     parallelCircuit.detailedCircuitVisualiser();
+    parallelCircuit.numberedCircuitVisualiser();
 
     return 0;
   }
