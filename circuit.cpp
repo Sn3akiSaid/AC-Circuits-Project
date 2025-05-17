@@ -72,11 +72,20 @@
       std::cout << "This circuit is empty.\n";
       return;
     }
-    for (const auto& comp : components)
+
+
+
+    if (connectionType == ConnectionType::Series)
     {
-      std::cout << "- " << comp->getType() << ":"
-                << comp->getMagn() << " Ω\n";
+      std::cout << "---";
+      for (const auto& comp : components)
+      {
+        std::cout << "[" << comp->getType() << ":"
+                  << comp->getMagn() << "Ω]---";
+      }
+      std::cout << "\n";
     } 
+    else{}
     std::complex<double> Z = getImp();
     std::cout << "Total impedance: " << std::abs(Z) << " Ω\n";
   }
