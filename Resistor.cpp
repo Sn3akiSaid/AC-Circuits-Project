@@ -1,6 +1,6 @@
 // Implementation of the derived Resistor class //
 
-#include"resistor.h"
+#include"Resistor.h"
 #include<iostream>
 #include<cmath>
 #include<stdexcept>

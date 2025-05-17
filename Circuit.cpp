@@ -1,4 +1,4 @@
-#include"circuit.h"
+#include"Circuit.h"
 #include<iostream>
 #include<iomanip>
 

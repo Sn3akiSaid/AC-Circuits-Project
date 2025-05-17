@@ -1,4 +1,4 @@
-#include"components.h"
+#include"Components.h"
 #include<iostream>
 #include<utility>
 #include<stdexcept>

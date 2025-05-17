@@ -3,7 +3,7 @@
 #ifndef CIRCUIT_H
 #define CIRCUIT_H
 
-#include"components.h"
+#include"Components.h"
 #include<vector>
 #include<memory>
 

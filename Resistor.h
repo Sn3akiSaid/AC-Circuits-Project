@@ -3,7 +3,7 @@
 
 #ifndef RESISTOR_H
 #define RESISTOR_H
-#include"components.h"
+#include"Components.h"
 #include<iostream>
 #include<complex>
 #include<memory>

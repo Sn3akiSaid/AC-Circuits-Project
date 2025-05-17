@@ -1,6 +1,6 @@
-#ifndef INDUCTOR_H
-#define INDUCTOR_H
-#include"components.h"
+#ifndef CAPACITOR_H
+#define CAPACITOR_H
+#include"Components.h"
 #include<iostream>
 #include<memory>
 #include<string>

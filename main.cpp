@@ -1,23 +1,32 @@
-#include"resistor.h"
-#include"circuit.h"
+#include"Resistor.h"
+#include"Circuit.h"
 #include<iostream>
 #include<memory>
 
-int main(){
+int Main(){
+  try
+  {
+    Circuit seriesCircuit;
 
-  Circuit seriesCircuit;
+    seriesCircuit.addComponent(std::make_unique<Resistor>(100.0, 10));
+    seriesCircuit.addComponent(std::make_unique<Resistor>(150.0, 10));
+    seriesCircuit.circuitVisualiser();
 
-  seriesCircuit.addComponent(std::make_unique<Resistor>(100.0, 10));
-  seriesCircuit.addComponent(std::make_unique<Resistor>(150.0, 10));
-  seriesCircuit.circuitVisualiser();
+    Circuit parallelCircuit("Parallel", ConnectionType::Parallel);
+    parallelCircuit.addComponent(std::make_unique<Resistor>(100, 1000));
+    
+    parallelCircuit.addComponent(std::make_unique<Resistor>(130, 1000));
+    
+    parallelCircuit.addComponent(std::make_unique<Resistor>(150, 1000));
 
-  Circuit parallelCircuit("Parallel", ConnectionType::Parallel);
-  parallelCircuit.addComponent(std::make_unique<Resistor>(100, 1000));
-  
-  parallelCircuit.addComponent(std::make_unique<Resistor>(130, 1000));
-  
-  parallelCircuit.addComponent(std::make_unique<Resistor>(150, 1000));
-
-  parallelCircuit.circuitVisualiser();
+    parallelCircuit.circuitVisualiser();
+    return 0;
+  }
+  catch (const std::exception& e)
+  {
+    std::cerr << "" << e.what() << std::endl;
+    return 1;
+  }
   return 0;
+
 }
