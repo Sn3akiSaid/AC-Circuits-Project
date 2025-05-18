@@ -1,1 +1,7 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/GkbsjKcA)
+In order to perform a compile enter the following into the terminal within this folder
+
+g++-11 -std=c++17 -o project.o main.cpp Circuit.cpp Components.cpp Resistor.cpp Capacitor.cpp Inductor.cpp
+
+When this compiles successfuly then run
+
+./project.o
