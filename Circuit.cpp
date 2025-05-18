@@ -160,13 +160,13 @@
   {return std::make_unique<Circuit>("Parallel Nested Circuit", ConnectionType::Parallel);}
 
   void Circuit::displayComponentsDetailed(const std::vector<std::unique_ptr<Components>>& comps, 
-                                       int depth, int& index) const
+                                          int depth, int& index) const
   {
     std::string indent(depth * 2, ' ');
     
     for (const auto& comp : comps)
     { // Check if component is a actually a nested circuit-not an actual component
-      // if yes -> assigns the circuit pointer to a nested circuit
+      // assigns the circuit pointer to a nested circuit
       if (auto nestedCircuit = dynamic_cast<const Circuit*>(comp.get()))
       { // Display nested circuit header
         if (nestedCircuit->getCompCount() == 1)
@@ -299,7 +299,7 @@
     }
 
     if (connectionType == ConnectionType::Series)
-    { // Add nodes in a sequence for series
+    { // Add nodes in a Sequence for Serial configurations using iterator
       std::cout << "---";
       for (size_t i = 0; i <components.size(); i++)
       {

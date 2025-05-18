@@ -33,7 +33,7 @@ int main(){
 
     // TESTING NESTING //
     // Series with a paralel group
-    std::cout << "\n---- Nest Test ----\n";
+    std::cout << "\n---- Nest Test 1----\n";
 
     // Series: 100 Ohm + [220 Ohm || 330 Ohm] + 470 Ohm
     Circuit nestedSeries("Circuit", ConnectionType::Series);
@@ -55,6 +55,8 @@ int main(){
     nestedSeries.detailedCircuitVisualiser();   // Output data table for components
     parallelGroupPtr->asciiSchematicVisualiser();   // Visualise the parallel subcircuit through raw pointer
 
+
+    std::cout << "\n---- Nest Test 2----\n";
     // Parallel with a series group
     // Parallel: 100 Ohm || [220 Ohm + 330 Ohm] || 470 Ohm
     Circuit nestedParallel("Circuit", ConnectionType::Parallel);
@@ -63,13 +65,13 @@ int main(){
 
     // Make the serial group [220 Ohm + 330 Ohm]
     auto serialGroup = std::make_unique<Circuit>("Group", ConnectionType::Series);
-    serialGroup->addComponent(std::make_unique<Resistor>(220,1000));
+    serialGroup->addComponent(std::make_unique<Capacitor>(0.00013,1000));
     serialGroup->addComponent(std::make_unique<Resistor>(330,1000));
     Circuit* serialGroupPtr = serialGroup.get(); // Keep raw pointer
     // Add parallel group to the series by moving ownership
     nestedParallel.addComponent(std::move(serialGroup));
     // End with the 470 Ohm resistor
-    nestedParallel.addComponent(std::make_unique<Resistor>(470,1000));
+    nestedParallel.addComponent(std::make_unique<Inductor>(0.0003,1000));
 
     // Visualise this circuit //
     nestedParallel.asciiSchematicVisualiser();    // Draw schematic for whole circuit

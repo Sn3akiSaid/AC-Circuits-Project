@@ -15,7 +15,7 @@ protected:
 public:
 
 	// Constructor with Inductance and frequency parameters
-	Inductor(double resIn = 0.0, double freqIn = 0.0);
+	Inductor(double indIn = 0.0, double freqIn = 0.0);
 
 
 	// Using Rule of Five
@@ -37,7 +37,7 @@ public:
 
 	// The Inductor specific virtual getters and setters
 	virtual double getInductance() const;
-	virtual void setInductance(double resIn);
+	virtual void setInductance(double indIn);
 
 	// Override ALL of the Components virtual methods
 

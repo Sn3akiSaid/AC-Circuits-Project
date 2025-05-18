@@ -20,9 +20,6 @@
 
   // Using Rule of Five
 
-  // Call destructor
-  // Components::~Components(){}
-
   // Implementation of the Constructors
 
 	// Copy constructor
