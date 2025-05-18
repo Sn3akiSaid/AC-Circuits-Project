@@ -223,9 +223,9 @@
                   << std::setw(15) << comp->getMagn()
                   << std::fixed << std::setprecision(1)
                   << (comp->getPhsDiff() * 180.0 / pi) << "\n";
-        }
+      }
     }
-}
+  }
 
 // Public wrapper that initializes the index variable
   void Circuit::displayComponentsDetailed(const std::vector<std::unique_ptr<Components>>& comps,
@@ -235,8 +235,10 @@
     displayComponentsDetailed(comps, depth, startIndex);
   }
 
+//// -------------------------////
+////--- CIRCUIT DATA TABLE ---////
+//// -------------------------////
 
-//--- Circuit with detailed components ---//
   void Circuit::detailedCircuitVisualiser() const
   {
     std::cout << "\n===== " 
@@ -279,9 +281,9 @@
     std::cout << std::string(90, '-') << "\n\n";
   }
 
-//// ------------------------ ////
+////--------------------------////
 ////--- CIRCUIT VISUALISER ---////
-//// ------------------------ ////
+////--------------------------////
 
   // Implementation of the ASCII visualiser
   void Circuit::asciiSchematicVisualiser() const
@@ -308,37 +310,37 @@
     }
     else
     { // New improved formatting for different type of components PARALLEL
-    // Simplified parallel circuit visualization
-    const size_t maxWidth = 40; // Define a fixed maximum width
-    
-    for (size_t i = 0; i < components.size(); ++i)
-    {
-      // Get component description string
-      std::ostringstream compOss;
-      compOss << components[i]->getType() << ":" << components[i]->getMagn() << " Ohm";
-      std::string compDesc = compOss.str();
+      // Simplified parallel circuit visualization
+      const size_t maxWidth = 40; // Define a fixed maximum width
       
-      // Calculate remaining spaces after the component description
-      size_t dashesLength = maxWidth - compDesc.length() - 8; // 8 = "[" + "]" + "|---" + "---|"
-      
-      // Print the branch with balanced dashes on both sides
-      size_t leftDashes = dashesLength / 2;
-      size_t rightDashes = dashesLength - leftDashes;
-      
-      std::cout << "   |" << std::string(leftDashes, '-') << "["
-                << compDesc << "]" << std::string(rightDashes, '-') << "|" << std::endl;
-      
-      // Print connector or bottom line
-      if (i != components.size() - 1)
+      for (size_t i = 0; i < components.size(); ++i)
       {
-        // Internal connection
-        std::cout << "   |" << std::string(maxWidth - 6, ' ') << "|" << std::endl;
-      }
-      else
-      {
-        // Bottom connection
-        std::cout << "---|" << std::string(maxWidth - 6, ' ') << "|---" << std::endl;
+        // Get component description string
+        std::ostringstream compOss;
+        compOss << components[i]->getType() << ":" << components[i]->getMagn() << " Ohm";
+        std::string compDesc = compOss.str();
+        
+        // Calculate remaining spaces after the component description
+        size_t dashesLength = maxWidth - compDesc.length() - 8; // 8 = "[" + "]" + "|---" + "---|"
+        
+        // Print the branch with balanced dashes on both sides
+        size_t leftDashes = dashesLength / 2;
+        size_t rightDashes = dashesLength - leftDashes;
+        
+        std::cout << "   |" << std::string(leftDashes, '-') << "["
+                  << compDesc << "]" << std::string(rightDashes, '-') << "|" << std::endl;
+        
+        // Print connector or bottom line
+        if (i != components.size() - 1)
+        {
+          // Internal connection
+          std::cout << "   |" << std::string(maxWidth - 6, ' ') << "|" << std::endl;
+        }
+        else
+        {
+          // Bottom connection
+          std::cout << "---|" << std::string(maxWidth - 6, ' ') << "|---" << std::endl;
+        }
       }
     }
-  }
   }
