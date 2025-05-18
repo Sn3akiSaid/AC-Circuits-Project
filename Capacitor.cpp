@@ -14,7 +14,7 @@ Capacitor::Capacitor(double capIn,
                               std::complex<double>(0.0, 0.0),
                               capIn,
                               freqIn,
-                              -pi/2), // Capacitors have 90 degree phase shift
+                              -pi/2), // Capacitors have -90 degree phase shift
                    Capacitance(capIn)
   {
     if (capIn < 0.0)
@@ -92,11 +92,14 @@ Capacitor::Capacitor(double capIn,
       double reactance = - 1.0 / (2.0 * pi * Frequency * Capacitance);
       Impedance = std::complex<double>(0.0, reactance);
       magnitudeOfImpedance = std::abs(Impedance);
-      phaseDifference = 0.0;
+      phaseDifference = -pi/2;
     }
     else
-    {
-
+    { // Infinite impedance case for 0 Frequency
+      // Set a really large value to simulate infinity ---> Turns into D.C. component
+      Impedance = std::complex<double>(0.0, -1.0e15);
+      magnitudeOfImpedance = 1.0e15;
+      phaseDifference = -pi/2;
     }
   }
 
@@ -136,10 +139,20 @@ Capacitor::Capacitor(double capIn,
     }
     magnitudeOfImpedance = magnIn;
     Impedance = std::polar(magnIn, -pi/2); // Z = |Z|exp(arg(phi))
+
     if (Frequency > 0.0)
     {
       Capacitance = 1.0 / (2.0 * pi * Frequency * magnIn); // C = 1/(w*f*|Z|) = 1/(2*pi*|Z|)
     }
+  }
+
+  void Capacitor::setFreq(double freqIn)
+  {
+    if (freqIn < 0.0)
+    {throw std::invalid_argument("Frequency cannot be negative");}
+
+    Frequency = freqIn;
+    updateImpedance();
   }
 
   void Capacitor::setPhsDiff(double phsDiffIn)

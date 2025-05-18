@@ -135,8 +135,7 @@ Resistor::Resistor(double resIn,
   void Resistor::setFreq(double freqIn)
   { // Check for negative frequency
     if (freqIn < 0.0)
-    {
-      throw std::invalid_argument("Frequency cannot be negative. ");
+    {throw std::invalid_argument("Frequency cannot be negative. ");
     }
     Frequency = freqIn;
     // In ideal resistors frequency doesn't change the impedances, but maintain helper method for concsistency

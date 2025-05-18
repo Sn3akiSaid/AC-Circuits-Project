@@ -1,4 +1,6 @@
 #include"Resistor.h"
+#include"Capacitor.h"
+#include"Inductor.h"
 #include"Circuit.h"
 #include<iostream>
 #include<memory>
@@ -11,6 +13,7 @@ int main(){
 
     seriesCircuit.addComponent(std::make_unique<Resistor>(100.0, 10));
     seriesCircuit.addComponent(std::make_unique<Resistor>(150.0, 10));
+    seriesCircuit.addComponent(std::make_unique<Capacitor>(100.0, 10));
     // seriesCircuit.circuitVisualiser();
     std::cout << "\n---- Simple Series Circuit ----\n";
     seriesCircuit.asciiSchematicVisualiser();
