@@ -180,7 +180,7 @@
         // Display the Z=R+jX in Cartesian
         std::ostringstream impStream;
         impStream << std::fixed << std::setprecision(2) 
-                  << imp.real() << " + j" << imp.imag();
+                  << imp.real() << (imp.imag() < 0 ? " -j" : " +j") << std::abs(imp.imag());
         
         // Process the nest, find out what type of configuration it has by 
         // passing pointer to connection type getter
@@ -203,7 +203,7 @@
         std::complex<double> imp = comp->getImp();
         std::ostringstream impStream;
         impStream << std::fixed << std::setprecision(2) 
-                  << imp.real() << " + j" << imp.imag();
+                  << imp.real() << (imp.imag() < 0 ? " -j" : " +j") << std::abs(imp.imag());
                      
         // Create a string that will differentiate between individual components
         // and individual components within a group/nest
@@ -267,7 +267,7 @@
     std::complex<double> totalImp = getImp();
     std::ostringstream totalImpStream;
     totalImpStream << std::fixed << std::setprecision(2) 
-                   << totalImp.real() << " + j" << totalImp.imag();
+                   << totalImp.real() << (totalImp.imag() < 0 ? " -j" : " +j") << std::abs(totalImp.imag());
 
     std::cout << std::left
               << std::setw(5) << "Total "
@@ -307,30 +307,38 @@
       std::cout << "\n\n";
     }
     else
-    { // Add nodes in PARALLEL 
-      size_t maxLen = 0;
-      std::vector<std::string> branches;
-      for (const auto& comp : components)
-      {
-        std::ostringstream oss;
-        oss << "   |---[" << comp->getType() << ":" << comp->getMagn() << " Ohm]---|";
-        std::string s = oss.str();
-        if (s.size() > maxLen) maxLen = s.size();
-        branches.push_back(s);
-      }
+    { // New improved formatting for different type of components PARALLEL
+    // Simplified parallel circuit visualization
+    const size_t maxWidth = 40; // Define a fixed maximum width
+    
+    for (size_t i = 0; i < components.size(); ++i)
+    {
+      // Get component description string
+      std::ostringstream compOss;
+      compOss << components[i]->getType() << ":" << components[i]->getMagn() << " Ohm";
+      std::string compDesc = compOss.str();
       
-      // Go through each branch
-      for (size_t i = 0; i < branches.size(); ++i)
+      // Calculate remaining spaces after the component description
+      size_t dashesLength = maxWidth - compDesc.length() - 8; // 8 = "[" + "]" + "|---" + "---|"
+      
+      // Print the branch with balanced dashes on both sides
+      size_t leftDashes = dashesLength / 2;
+      size_t rightDashes = dashesLength - leftDashes;
+      
+      std::cout << "   |" << std::string(leftDashes, '-') << "["
+                << compDesc << "]" << std::string(rightDashes, '-') << "|" << std::endl;
+      
+      // Print connector or bottom line
+      if (i != components.size() - 1)
       {
-        std::cout << branches[i] << "\n";
-          if (i != branches.size() - 1)
-          { // Add connection between parallel branches
-            std::cout << "   |" << std::string(maxLen-5, ' ') << "|\n";
-          }
-          else
-          { // Add simple buses 
-            std::cout << "---|" << std::string(maxLen-5, ' ') << "|---\n";
-          }
+        // Internal connection
+        std::cout << "   |" << std::string(maxWidth - 6, ' ') << "|" << std::endl;
+      }
+      else
+      {
+        // Bottom connection
+        std::cout << "---|" << std::string(maxWidth - 6, ' ') << "|---" << std::endl;
       }
     }
+  }
   }

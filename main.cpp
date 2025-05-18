@@ -11,9 +11,9 @@ int main(){
     // Simple Series Circuit //
     Circuit seriesCircuit("Simple Circuit", ConnectionType::Series);
 
-    seriesCircuit.addComponent(std::make_unique<Resistor>(100.0, 10));
-    seriesCircuit.addComponent(std::make_unique<Resistor>(150.0, 10));
-    seriesCircuit.addComponent(std::make_unique<Capacitor>(100.0, 10));
+    seriesCircuit.addComponent(std::make_unique<Resistor>(100.0, 10));   // 100Ohm
+    seriesCircuit.addComponent(std::make_unique<Resistor>(150.0, 10));   // 150Ohm
+    seriesCircuit.addComponent(std::make_unique<Capacitor>(0.0001, 10)); // 100uF
     // seriesCircuit.circuitVisualiser();
     std::cout << "\n---- Simple Series Circuit ----\n";
     seriesCircuit.asciiSchematicVisualiser();
@@ -22,11 +22,11 @@ int main(){
     // Simple Parallel Circuit //
     Circuit parallelCircuit("Simple Circuit", ConnectionType::Parallel);
     parallelCircuit.addComponent(std::make_unique<Resistor>(100, 1000));
-    parallelCircuit.addComponent(std::make_unique<Resistor>(130, 1000));
+    parallelCircuit.addComponent(std::make_unique<Capacitor>(0.00013, 1000));
     parallelCircuit.addComponent(std::make_unique<Resistor>(150, 1000));
+    parallelCircuit.addComponent(std::make_unique<Capacitor>(0.00015, 1000));
     parallelCircuit.addComponent(std::make_unique<Resistor>(150, 1000));
-    parallelCircuit.addComponent(std::make_unique<Resistor>(150, 1000));
-
+    parallelCircuit.addComponent(std::make_unique<Inductor>(0.00015, 1000));
     std::cout << "\n---- Simple Parallel Circuit ----\n";
     parallelCircuit.asciiSchematicVisualiser();
     parallelCircuit.detailedCircuitVisualiser();
