@@ -18,7 +18,6 @@ private:
   // Helper method for recursive display of nested circuits
   void displayComponentsDetailed(const std::vector<std::unique_ptr<Components>>& comps,
                                  int depth, int& index) const;
-  void displaySchematic(int depth = 0) const;
 public:
 
   // Constructor
@@ -36,9 +35,9 @@ public:
   double getPhsDiff() const override;           // Phase shift of impedance
   void setFreq(double freq) override;           // 
   
-// New methods for interface //
+// Methods for interface //
 
-  std::string getType() const override;         // Returns "Circuit"
+  std::string getType() const override;
   double getFreq() const override;
 
   void setType(const std::string &compType) override;
@@ -57,11 +56,9 @@ public:
                                 int depth = 0) const;
 
   // Visualisation Methods
-  // void circuitVisualiser() const;
-  void detailedCircuitVisualiser() const;
-  void numberedCircuitVisualiser() const;
-// New schematic method using basic ASCII art
-  void asciiSchematicVisualiser() const;
+  void detailedCircuitVisualiser() const; // Table with data
+  void asciiSchematicVisualiser() const;  // ASCII of circuit diagram
+
 // Accessor methods //
   ConnectionType getConnType() const {return connectionType;} // Connection type
   std::string getName() const {return circuitName;}           // Explicit circuit name getter

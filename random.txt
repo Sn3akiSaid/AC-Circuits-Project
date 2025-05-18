@@ -1,0 +1,17 @@
+This is how it displays now after my modification:
+
+|---[Resistor:100 Ohm]---|
+|                        |
+|---[Resistor:130 Ohm]---|
+|                        |
+|---[Resistor:150 Ohm]---|
+|                        |
+
+
+This is how I eventually want it to display:
+
+    |---[Resistor:100 Ohm]---|
+    |                        |
+----|---[Resistor:130 Ohm]---|----
+    |                        | 
+    |---[Resistor:150 Ohm]---|
