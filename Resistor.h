@@ -58,9 +58,5 @@ public:
 
 	// Helper methods
 	virtual void updateImpedance();
-
-		// void print() const override {
-		//     std::cout << "Resistor: " << name << ", Value: " << value << " Ohm" << std::endl;
-		// }}
 };
 #endif

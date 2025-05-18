@@ -12,7 +12,7 @@ Resistor::Resistor(double resIn,
                               std::complex<double>(resIn, 0.0),
                               resIn,
                               freqIn,
-                              0.0) ,
+                              0.0),
                    Resistance(resIn)
   {
     // Input validation
